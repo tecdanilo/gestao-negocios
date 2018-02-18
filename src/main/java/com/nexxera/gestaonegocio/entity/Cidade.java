@@ -1,6 +1,9 @@
 package com.nexxera.gestaonegocio.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -16,6 +19,6 @@ public class Cidade {
     private String nome;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "estado_id")
-    @JsonBackReference
+    @JsonManagedReference
     private Estado estado;
 }

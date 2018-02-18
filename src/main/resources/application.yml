@@ -5,3 +5,7 @@ spring:
     name: gestao-negocios
   profiles:
     active: prod
+  jackson:
+    serialization:
+      FAIL_ON_EMPTY_BEANS: false
+
