@@ -1,5 +1,6 @@
 package com.nexxera.gestaonegocio.entity;
 
+import com.nexxera.gestaonegocio.dto.ContasPagarDTO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -30,5 +31,7 @@ public class ContasPagar {
     private Usuario usuarioLancamento;
     @OneToOne
     private Usuario usuarioBaixa;
+
+
 
 }

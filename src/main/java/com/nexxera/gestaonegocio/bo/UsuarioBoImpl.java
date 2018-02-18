@@ -43,4 +43,9 @@ public class UsuarioBoImpl implements UsuarioBo {
     public Usuario findByLoginAndSenha(String login, String senha){
         return usuarioRepository.findByLoginAndSenha(login, senha);
     }
+
+    @Override
+    public Usuario findOne(Long id){
+        return usuarioRepository.findOne(id);
+    }
 }

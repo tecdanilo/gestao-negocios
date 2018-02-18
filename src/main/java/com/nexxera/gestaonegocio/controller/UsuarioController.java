@@ -5,7 +5,6 @@ import com.nexxera.gestaonegocio.constants.ApplicationConstants;
 import com.nexxera.gestaonegocio.dto.UsuarioLoginDTO;
 import com.nexxera.gestaonegocio.entity.Usuario;
 import com.nexxera.gestaonegocio.pojo.ResultadoServico;
-import com.nexxera.gestaonegocio.util.ErrorsUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,19 +29,17 @@ public class UsuarioController {
         try {
             Usuario user = usuarioBo.findByLoginAndSenha(usuarioLoginDTO.getLogin(), usuarioLoginDTO.getSenha());
             if (user == null){
-                retorno = new ResultadoServico<>(ApplicationConstants.RESULTADO_SERVICO_NO_DATA_FOUND, null, ErrorsUtil.buildErrorsListWithPreData("Usuário ou senha inválidos."));
+                retorno = new ResultadoServico<>(ApplicationConstants.RESULTADO_SERVICO_NO_DATA_FOUND, null);
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).body(retorno);
             }else{
-                retorno = new ResultadoServico<>(ApplicationConstants.RESULTADO_SERVICO_OK, user, null);
+                retorno = new ResultadoServico<>(ApplicationConstants.RESULTADO_SERVICO_OK, user);
                 return ResponseEntity.ok(retorno);
             }
         } catch (Exception e) {
             logger.error("login",e);
 
             return ResponseEntity.status(500).body(
-                    new ResultadoServico<>(
-                                ApplicationConstants.RESULTADO_SERVICO_SERVER_ERROR, null,  ErrorsUtil.buildErrorsListWithPreData("Erro no processamento do servidor, se o problema persistir, contacte o administrador de sistemas")
-                    )
+                    new ResultadoServico<>(ApplicationConstants.RESULTADO_SERVICO_SERVER_ERROR, null)
             );
         }
 

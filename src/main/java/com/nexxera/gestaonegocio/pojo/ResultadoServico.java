@@ -11,5 +11,4 @@ import java.util.List;
 public class ResultadoServico<T> implements Serializable {
     private String msg;
     private T data;
-    private List<String> errors;
 }

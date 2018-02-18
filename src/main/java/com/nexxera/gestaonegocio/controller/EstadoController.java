@@ -4,7 +4,6 @@ import com.nexxera.gestaonegocio.bo.EstadoBo;
 import com.nexxera.gestaonegocio.constants.ApplicationConstants;
 import com.nexxera.gestaonegocio.entity.Estado;
 import com.nexxera.gestaonegocio.pojo.ResultadoServico;
-import com.nexxera.gestaonegocio.util.ErrorsUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,18 +28,16 @@ public class EstadoController {
         try{
             List<Estado> estados = estadoBo.findAll();
             if ( estados.isEmpty() ){
-                retorno = new ResultadoServico<>(ApplicationConstants.RESULTADO_SERVICO_NO_DATA_FOUND, null, ErrorsUtil.buildErrorsListWithPreData("Nenhum Fornecedor Cadastrado"));
+                retorno = new ResultadoServico<>(ApplicationConstants.RESULTADO_SERVICO_NO_DATA_FOUND, null);
                 return ResponseEntity.status(204).body(retorno);
             }else{
-                retorno = new ResultadoServico<>(ApplicationConstants.RESULTADO_SERVICO_OK, estados, null);
+                retorno = new ResultadoServico<>(ApplicationConstants.RESULTADO_SERVICO_OK, estados);
                 return ResponseEntity.ok(retorno);
             }
         }catch (Exception e){
             logger.error("listAll",e);
             return ResponseEntity.status(500).body(
-                    new ResultadoServico<>(
-                            ApplicationConstants.RESULTADO_SERVICO_SERVER_ERROR, null,  ErrorsUtil.buildErrorsListWithPreData("Erro no processamento do servidor, se o problema persistir, contacte o administrador de sistemas")
-                    )
+                    new ResultadoServico<>(ApplicationConstants.RESULTADO_SERVICO_SERVER_ERROR, null)
             );
         }
     }
@@ -52,18 +49,16 @@ public class EstadoController {
         try{
             Estado cidade = estadoBo.findOne(id);
             if ( cidade == null ){
-                retorno = new ResultadoServico<>(ApplicationConstants.RESULTADO_SERVICO_NO_DATA_FOUND, null, ErrorsUtil.buildErrorsListWithPreData("Nenhum Fornecedor Cadastrado"));
+                retorno = new ResultadoServico<>(ApplicationConstants.RESULTADO_SERVICO_NO_DATA_FOUND, null);
                 return ResponseEntity.status(204).body(retorno);
             }else{
-                retorno = new ResultadoServico<>(ApplicationConstants.RESULTADO_SERVICO_OK, cidade, null);
+                retorno = new ResultadoServico<>(ApplicationConstants.RESULTADO_SERVICO_OK, cidade);
                 return ResponseEntity.ok(retorno);
             }
         }catch (Exception e){
             logger.error("findOne",e);
             return ResponseEntity.status(500).body(
-                    new ResultadoServico<>(
-                            ApplicationConstants.RESULTADO_SERVICO_SERVER_ERROR, null,  ErrorsUtil.buildErrorsListWithPreData("Erro no processamento do servidor, se o problema persistir, contacte o administrador de sistemas")
-                    )
+                    new ResultadoServico<>(ApplicationConstants.RESULTADO_SERVICO_SERVER_ERROR, null)
             );
         }
     }
