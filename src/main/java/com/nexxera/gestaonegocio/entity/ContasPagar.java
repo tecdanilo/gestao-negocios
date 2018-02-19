@@ -1,6 +1,5 @@
 package com.nexxera.gestaonegocio.entity;
 
-import com.nexxera.gestaonegocio.dto.ContasPagarDTO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -8,12 +7,13 @@ import lombok.ToString;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
 @Getter @Setter @ToString
-public class ContasPagar {
+public class ContasPagar implements Serializable {
 
     @Id
     private Long numdoc;

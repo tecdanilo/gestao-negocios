@@ -6,11 +6,12 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
 @Getter @Setter @ToString
-public class Estado {
+public class Estado implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

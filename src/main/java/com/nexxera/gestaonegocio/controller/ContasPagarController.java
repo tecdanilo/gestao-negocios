@@ -71,7 +71,7 @@ public class ContasPagarController {
             retorno.setData(ContasPagarDTO.parseContasPagarDTO(cpRetorno));
             return ResponseEntity.ok(retorno);
         }catch (Exception e){
-            logger.error("create",e);
+            logger.error("update",e);
             retorno = new ResultadoServico<>("Update Error", ContasPagarDTO.parseContasPagarDTO(cpRetorno) );
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(retorno);
         }
@@ -93,7 +93,7 @@ public class ContasPagarController {
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).body(retorno);
             }
         }catch (Exception e){
-            logger.error("create",e);
+            logger.error("findOne",e);
             retorno = new ResultadoServico<>("Find Error", ContasPagarDTO.parseContasPagarDTO(cpRetorno));
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(retorno);
         }
@@ -101,13 +101,12 @@ public class ContasPagarController {
 
     @CrossOrigin
     @DeleteMapping(value = "{id}")
-    public ResponseEntity<ResultadoServico<ContasPagarDTO>> create(@PathVariable(value = "id") Long id){
+    public ResponseEntity<ResultadoServico<ContasPagarDTO>> delete(@PathVariable(value = "id") Long id){
         ResultadoServico<ContasPagarDTO> retorno = null;
         ContasPagar cpRetorno = null;
         try{
 
             cpRetorno = contasPagarBo.findOne(id);
-            retorno.setData(ContasPagarDTO.parseContasPagarDTO(cpRetorno));
             contasPagarBo.delete(id);
             if (cpRetorno != null) {
                 retorno = new ResultadoServico<>("Delete OK", ContasPagarDTO.parseContasPagarDTO(cpRetorno));
@@ -117,7 +116,7 @@ public class ContasPagarController {
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).body(retorno);
             }
         }catch (Exception e){
-            logger.error("create",e);
+            logger.error("delete",e);
             retorno = new ResultadoServico<>("Delete Error", ContasPagarDTO.parseContasPagarDTO(cpRetorno));
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(retorno);
         }
