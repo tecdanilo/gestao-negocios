@@ -31,7 +31,7 @@ public class ContasPagarBoImpl implements ContasPagarBo {
 
     @Override
     public List<ContasPagar> findAll(){
-        return contasPagarRepository.findAll(new Sort("dataVencimento desc"));
+        return contasPagarRepository.findAll();
     }
 
     @Override

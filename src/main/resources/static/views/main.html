@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    <label>Filial:</label>
+    <select>
+        <option value="0">Todas</option>
+        <option value="1">Filial 1 / SP</option>
+    </select>
+    <br>
+    <table class="greyGridTable">
+        <thead>
+            <th>Filial</th>
+            <th>Fornecedor</th>
+            <th>Doc.</th>
+            <th>Lançamento</th>
+            <th>Desc.</th>
+            <th>Obs.</th>
+            <th>Vencimento</th>
+            <th>Valor</th>
+            <th>Ações</th>
+        </thead>
+        <tbody>
+            <tr ng-repeat="c in contas">
+                <td>{{c.filial.fullname}}</td>
+                <td>{{c.fornecedor.razao}}</td>
+                <td>{{c.numdoc}}</td>
+                <td>{{c.dataLancamento | date:'dd/MM/yyyy'}}</td>
+                <td>{{c.descricao}}</td>
+                <td>{{c.observacao}}</td>
+                <td>{{c.dataVencimento | date:'dd/MM/yyyy'}}</td>
+                <td>{{c.valor | currency: 'R$' : 2 }}</td>
+                <td>
+                    <button type="button" class="btn btn-outline-dark">Baixa</button>
+                    <button type="button" class="btn btn-outline-dark">Editar</button>
+                    <button type="button" class="btn btn-outline-dark">Excluir</button>
+                </td>
+            </tr>
+        </tbody>
+
+    </table>
+    <br>
+    <button type="button" class="btn btn-outline-dark">Novo</button>
+
+    <br>
+    <form>
+        <label></label>
+    </form>
+</body>
+</html>

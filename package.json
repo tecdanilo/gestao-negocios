@@ -1,0 +1,20 @@
+{
+  "name": "gestao-negocio",
+  "version": "0.0.1",
+  "dependencies": {
+    "angular": "^1.6.9",
+    "angular-animate": "^1.6.9",
+    "angular-aria": "^1.6.9",
+    "angular-material": "^1.1.7",
+    "angular-route": "^1.6.9",
+    "angular-router": "^0.0.2",
+    "angular-ui-router": "^1.0.3",
+    "bootstrap": "^4.0.0",
+    "fontawesome": "^4.7.2"
+  },
+  "description": "Avaliação - sistema de gestão de contas à pagar",
+  "main": "index.js",
+  "repository": "https://github.com/tecdanilo/gestao-negocios.git",
+  "author": "tecdanilo <tecdanilo@gmail.com>",
+  "license": "GNU"
+}

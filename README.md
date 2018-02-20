@@ -19,9 +19,15 @@ Projeto de avaliação de skills de programação.
     * Fonts Awesome
     * Npm
     * Yarn
-    * WebPack
+
 
 ##Considerações
 
 ##Instruções
+
+npm install -g yarn
+
+yarn install
+
+mvn -DskipTests=true
 
