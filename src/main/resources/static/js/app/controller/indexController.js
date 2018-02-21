@@ -8,8 +8,9 @@ angular.module('gestao-negocio-app').controller('IndexController', function ($sc
     $scope.contas = [];
     $scope.conta = {};
     $scope.dataVencimento;
+    $scope.saldo = 0;
 
-    $scope.filialFiltro = undefined;
+    $scope.filialFiltro = 0;
 
     $scope.comboFilialChange = function(){
         $scope.listAllContas($scope.filialFiltro);
@@ -19,6 +20,7 @@ angular.module('gestao-negocio-app').controller('IndexController', function ($sc
         ContasPagarService.findAll(id).then(
             function(data){
                 $scope.contas = data.data;
+                $scope.calculaSaldo();
             },
             function (error) {
                 console.error("Erro");
@@ -79,6 +81,7 @@ angular.module('gestao-negocio-app').controller('IndexController', function ($sc
 
     $scope.editar = function (id) {
         console.log("editar " + id);
+        $scope.resetCadastro();
         $scope.mode = "edit";
         ContasPagarService.find(id).then(
             function (data) {
@@ -90,9 +93,9 @@ angular.module('gestao-negocio-app').controller('IndexController', function ($sc
                         break;
                     }
                 }
-                for (var i = 0; i < $scope.filiais.length ; i++){
-                    if ($scope.filiais[i].id == $scope.conta.filialId){
-                        $scope.filialSelecionada = $scope.filiais[i];
+                for (var j = 0; j < $scope.filiais.length ; j++){
+                    if ($scope.filiais[j].id == $scope.conta.filialId){
+                        $scope.filialSelecionada = $scope.filiais[j];
                         break;
                     }
                 }
@@ -122,8 +125,17 @@ angular.module('gestao-negocio-app').controller('IndexController', function ($sc
         console.log("salvar ");
 
         $scope.conta.dataVencimento = $scope.dataVencimento.getTime();
-        $scope.conta.filialId = $scope.filialSelecionada;
-        $scope.conta.fornecedorId = $scope.fornecedorSelecionado;
+        if ($scope.filialSelecionada.id == undefined){
+            $scope.conta.filialId = $scope.filialSelecionada;
+        }else{
+            $scope.conta.filialId = $scope.filialSelecionada.id;
+        }
+        if ($scope.fornecedorSelecionado.id == undefined){
+            $scope.conta.fornecedorId = $scope.fornecedorSelecionado;
+        }else{
+            $scope.conta.fornecedorId = $scope.fornecedorSelecionado.id;
+        }
+
         if ($scope.conta.id == null){
             ContasPagarService.create($scope.conta).then(
                 function(data){
@@ -172,6 +184,15 @@ angular.module('gestao-negocio-app').controller('IndexController', function ($sc
             "usuarioLancamentoId": null,
             "usuarioBaixaId": null
         };
+    }
+
+    $scope.calculaSaldo = function () {
+        $scope.saldo = 0;
+        for (var i = 0 ; i < $scope.contas.length ; i++){
+            if ($scope.contas[i].dataBaixa == null){
+                $scope.saldo += $scope.contas[i].valor;
+            }
+        }
     }
 
     $scope.init = function (){

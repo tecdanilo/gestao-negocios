@@ -4,7 +4,6 @@ import com.nexxera.gestaonegocio.dto.ContasPagarDTO;
 import com.nexxera.gestaonegocio.entity.ContasPagar;
 import com.nexxera.gestaonegocio.repository.ContasPagarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;

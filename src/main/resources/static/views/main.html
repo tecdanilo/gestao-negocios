@@ -12,7 +12,7 @@
                 <label class="input-group-text" for="cmb_filial">Filial</label>
             </div>
             <select class="custom-select" id="cmb_filial" ng-model="filialFiltro" ng-change="comboFilialChange()">
-                <option value="0">Todas</option>
+                <option value="0" >Todas</option>
                 <option ng-repeat=" fil in filiais " value="{{fil.id}}">{{fil.fullname}} - {{fil.cnpj}}</option>
             </select>
         </div>
@@ -41,17 +41,22 @@
                 <td>{{c.dataVencimento | date:'dd/MM/yyyy'}}</td>
                 <td>{{c.valor | currency: 'R$' : 2 }}</td>
                 <td>
-                    <span ng-show="c.dataBaixa">S</span>
-                    <span ng-show="!c.dataBaixa">N</span>
+                    <span ng-show="c.dataBaixa">Sim</span>
+                    <span ng-show="!c.dataBaixa">Não</span>
                 </td>
                 <td>
-                    <button type="button" class="btn btn-outline-dark" ng-click="baixar(c.numdoc)">Baixar</button>
+                    <button type="button" class="btn btn-outline-dark" ng-hide="c.dataBaixa" ng-click="baixar(c.numdoc)">Baixar</button>
                     <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#exampleModal" ng-click="editar(c.numdoc)">Editar</button>
                     <button type="button" class="btn btn-outline-dark" ng-click="excluir(c.numdoc)">Excluir</button>
                 </td>
             </tr>
             </tbody>
-
+            <tfoot>
+                <tr>
+                    <td colspan="9"></td>
+                    <td>Saldo Atual: {{saldo | currency: 'R$' : 2 }}</td>
+                </tr>
+            </tfoot>
         </table>
         <br>
         <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#exampleModal" ng-click="novo()">
@@ -118,7 +123,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="num_valor">Valor</span>
                             </div>
-                            <input type="text" class="form-control" placeholder="" aria-label="Valor" ng-model="conta.valor" aria-describedby="num_valor">
+                            <input type="number" class="form-control" placeholder="" aria-label="Valor" ng-model="conta.valor" aria-describedby="num_valor">
                         </div>
 
                         <div class="input-group mb-3">

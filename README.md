@@ -14,20 +14,35 @@ Projeto de avaliação de skills de programação.
     * Springboot(REST, JPA, Lombok)
 
 3. Frontend:
-    * AngularJS ( 1x )
-    * Bootstrap
-    * Fonts Awesome
+    * AngularJS  1.6 
+    * Bootstrap 4
     * Npm
     * Yarn
 
 
 ##Considerações
 
+    1. Não estão contemplados na inplementação:
+        * segurança de API;
+        * login;
+        * validação de campos em tela;
+        * minificação de código no frontend.
+        * Aplicação de temas
+    
+    2. Para executar o projeto em IDES como Intellij e Eclipse, é necessária a instalação do plugin do lombok para que seja possível compilar o código.
+
 ##Instruções
+
+Para executar a aplicação é necessário que se tenha o executável do npm.
+
+Os passos do Build são:
 
 npm install -g yarn
 
 yarn install
 
-mvn -DskipTests=true
+mvn -Dspring.profiles.active=true
+
+Obs.: para alterar os dados de conexão com o banco de dados, edite o arquivo application-local.yml
+
 
