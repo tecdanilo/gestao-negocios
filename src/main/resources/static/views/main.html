@@ -2,18 +2,23 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Contas à Pagar</title>
 </head>
 <body>
+    <div>
 
-    <label>Filial:</label>
-    <select>
-        <option value="0">Todas</option>
-        <option value="1">Filial 1 / SP</option>
-    </select>
-    <br>
-    <table class="greyGridTable">
-        <thead>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <label class="input-group-text" for="cmb_filial">Filial</label>
+            </div>
+            <select class="custom-select" id="cmb_filial" ng-model="filialFiltro" ng-change="comboFilialChange()">
+                <option value="0">Todas</option>
+                <option ng-repeat=" fil in filiais " value="{{fil.id}}">{{fil.fullname}} - {{fil.cnpj}}</option>
+            </select>
+        </div>
+        <br>
+        <table class="greyGridTable">
+            <thead>
             <th>Filial</th>
             <th>Fornecedor</th>
             <th>Doc.</th>
@@ -22,9 +27,10 @@
             <th>Obs.</th>
             <th>Vencimento</th>
             <th>Valor</th>
+            <th>Baixado</th>
             <th>Ações</th>
-        </thead>
-        <tbody>
+            </thead>
+            <tbody>
             <tr ng-repeat="c in contas">
                 <td>{{c.filial.fullname}}</td>
                 <td>{{c.fornecedor.razao}}</td>
@@ -35,20 +41,103 @@
                 <td>{{c.dataVencimento | date:'dd/MM/yyyy'}}</td>
                 <td>{{c.valor | currency: 'R$' : 2 }}</td>
                 <td>
-                    <button type="button" class="btn btn-outline-dark">Baixa</button>
-                    <button type="button" class="btn btn-outline-dark">Editar</button>
-                    <button type="button" class="btn btn-outline-dark">Excluir</button>
+                    <span ng-show="c.dataBaixa">S</span>
+                    <span ng-show="!c.dataBaixa">N</span>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-outline-dark" ng-click="baixar(c.numdoc)">Baixar</button>
+                    <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#exampleModal" ng-click="editar(c.numdoc)">Editar</button>
+                    <button type="button" class="btn btn-outline-dark" ng-click="excluir(c.numdoc)">Excluir</button>
                 </td>
             </tr>
-        </tbody>
+            </tbody>
 
-    </table>
-    <br>
-    <button type="button" class="btn btn-outline-dark">Novo</button>
+        </table>
+        <br>
+        <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#exampleModal" ng-click="novo()">
+            +
+        </button>
+    </div>
 
-    <br>
-    <form>
-        <label></label>
-    </form>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Conta</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="txt_documento">Documento</span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="" ng-disabled="mode=='edit'" aria-label="Documento" ng-model="conta.numdoc" aria-describedby="txt_documento">
+                        </div>
+
+                        <div class="form-group">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" for="cmb_filial_cad">Filial</label>
+                                </div>
+                                <select class="custom-select" id="cmb_filial_cad" ng-model="filialSelecionada">
+                                    <option ng-repeat=" fil in filiais " ng-selected="filialSelecionada.id == fil.id" value="{{fil.id}}">{{fil.fullname}} - {{fil.cnpj}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" for="cmb_fornecedor_cad">Fornecedor</label>
+                                </div>
+
+                                <select class="custom-select" id="cmb_fornecedor_cad" ng-model="fornecedorSelecionado">
+                                    <option ng-repeat=" forn in fornecedores " ng-selected="fornecedorSelecionado.id == forn.id" value="{{forn.id}}">{{forn.razao}}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="txt_descricao">Descrição</span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="" aria-label="Descrição" ng-model="conta.descricao" aria-describedby="txt_descricao">
+                        </div>
+
+                        <div class="input-group" style="margin-bottom: 18px;">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Observação</span>
+                            </div>
+                            <textarea class="form-control" aria-label="Observação" ng-model="conta.observacao"></textarea>
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="num_valor">Valor</span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="" aria-label="Valor" ng-model="conta.valor" aria-describedby="num_valor">
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="txt_vencimento">Vencimento</span>
+                            </div>
+                            <input type="date" class="form-control" placeholder="" aria-label="Vencimento"  ng-model="dataVencimento" aria-describedby="txt_vencimento">
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" ng-click="cancelar()">Cancelar</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="salvar()">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 </body>
 </html>

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -26,12 +27,19 @@ public class ContasPagarBoImpl implements ContasPagarBo {
 
     @Override
     public ContasPagar save(ContasPagar conta){
+        if (conta.getDataLancamento() == null)
+            conta.setDataLancamento(new Date());
         return contasPagarRepository.save(conta);
     }
 
     @Override
     public List<ContasPagar> findAll(){
         return contasPagarRepository.findAll();
+    }
+
+    @Override
+    public List<ContasPagar> findAllByFilialId(Long filialId){
+        return contasPagarRepository.findAllByFilialId(filialId);
     }
 
     @Override

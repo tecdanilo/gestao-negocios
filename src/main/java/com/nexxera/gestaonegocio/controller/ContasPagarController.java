@@ -25,10 +25,17 @@ public class ContasPagarController {
 
     @CrossOrigin
     @GetMapping(value = "list")
-    public ResponseEntity<ResultadoServico<List<ContasPagar>>> listAll(){
+    public ResponseEntity<ResultadoServico<List<ContasPagar>>> listAll(@RequestParam(value = "filialId", required = false) Long filialId){
         ResultadoServico<List<ContasPagar>> retorno = null;
         try{
-            List<ContasPagar> contasPagar = contasPagarBo.findAll();
+            List<ContasPagar> contasPagar;
+
+            if (filialId != null && filialId > 0){
+                contasPagar = contasPagarBo.findAllByFilialId(filialId);
+            }else{
+                contasPagar = contasPagarBo.findAll();
+            }
+
             if ( contasPagar.isEmpty() ){
                 retorno = new ResultadoServico<>(ApplicationConstants.RESULTADO_SERVICO_NO_DATA_FOUND, null);
                 return ResponseEntity.status(204).body(retorno);

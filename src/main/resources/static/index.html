@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Gestão Negócio</title>
+    <title>Contas à pagar</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -14,14 +14,17 @@
 
     <script src="./node_modules/angular/angular.min.js"></script>
     <script src="./node_modules/angular-route/angular-route.min.js"></script>
-
+    <script src="./node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
     <script src="./js/app/app.js"></script>
     <script src="./js/app/constant/app.constants.js"></script>
     <script src="./js/app/routes.js"></script>
     <script src="./js/app/service/contasPagarService.js"></script>
-    <script src="./js/app/controller/indexController.js"></script>
+    <script src="./js/app/service/filialService.js"></script>
+    <script src="./js/app/service/fornecedorService.js"></script>
 
+    <script src="./js/app/controller/indexController.js"></script>
 
 </head>
 <body ng-app="gestao-negocio-app">
@@ -30,7 +33,6 @@
         </div>
         <div ng-view=""></div>
         <div class="footer">
-            <!-- footer aqui -->
         </div>
     </div>
 </body>

@@ -1,5 +1,8 @@
 package com.nexxera.gestaonegocio.constants;
 
+/**
+ * Classe destinada à constantes genéricas de sistema.
+ */
 public class ApplicationConstants {
 
     private ApplicationConstants(){
