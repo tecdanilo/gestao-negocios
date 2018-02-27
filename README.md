@@ -41,8 +41,10 @@ npm install -g yarn
 
 yarn install
 
-mvn -Dspring.profiles.active=true
+mvn -Dspring.profiles.active=local
 
-Obs.: para alterar os dados de conexão com o banco de dados, edite o arquivo application-local.yml
+Obs1.: Para alterar os dados de conexão com o banco de dados, edite o arquivo application-local.yml
+
+Obs2.: Para carregar os dados iniciais do banco, utilizar o script dados.sql
 
 

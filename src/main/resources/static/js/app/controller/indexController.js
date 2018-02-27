@@ -1,5 +1,6 @@
-angular.module('gestao-negocio-app').controller('IndexController', function ($scope, $rootScope, $location, $routeParams, ContasPagarService, FilialService, FornecedorService) {
+angular.module('gestao-negocio-app').controller('IndexController', function ($scope, $rootScope, $location, $routeParams, $timeout, ContasPagarService, FilialService, FornecedorService) {
 
+    $scope.growl = { "active" : false, "msg":"Hello", "color" : "red"};
     $scope.mode = "insert";
     $scope.filiais = [];
     $scope.fornecedores = [];
@@ -11,6 +12,10 @@ angular.module('gestao-negocio-app').controller('IndexController', function ($sc
     $scope.saldo = 0;
 
     $scope.filialFiltro = 0;
+
+    $scope.autoCloseGrowl = function(afterMilliSeconds){
+        $timeout(function(){ $scope.growl = { "active" : false, "msg":"", "color" : "red"}; }, afterMilliSeconds);
+    };
 
     $scope.comboFilialChange = function(){
         $scope.listAllContas($scope.filialFiltro);
@@ -67,9 +72,13 @@ angular.module('gestao-negocio-app').controller('IndexController', function ($sc
                     function(){
                         console.info("baixa efetuada");
                         $scope.listAllContas($scope.filialFiltro);
+                        $scope.growl = { "active" : true, "msg":"Registro baixado com sucesso", "color" : "green"};
+                        $scope.autoCloseGrowl(5000);
                     },
                     function (error) {
                         console.error("erro ao efetuar baixa");
+                        $scope.growl = { "active" : true, "msg":"Erro ao baixar o registro", "color" : "red"};
+                        $scope.autoCloseGrowl(5000);
                     }
                 );
             },
@@ -114,14 +123,24 @@ angular.module('gestao-negocio-app').controller('IndexController', function ($sc
             function (data) {
                 $scope.listAllContas($scope.filialFiltro);
                 $scope.resetCadastro();
+                $scope.growl = { "active" : true, "msg":"Registro Excluído com sucesso", "color" : "green"};
+                $scope.autoCloseGrowl(5000);
             },
             function(error) {
                 console.error("Erro");
+                $scope.growl = { "active" : true, "msg":"Erro ao excluir registro", "color" : "red"};
+                $scope.autoCloseGrowl(5000);
             }
         );
     }
 
-    $scope.salvar = function () {
+    $scope.salvar = function (valido) {
+        if (!valido){
+            $scope.growl.active = true;
+            $scope.growl.msg = "Preencha campos obrigatórios (com *)";
+            $scope.autoCloseGrowl(5000);
+            return;
+        }
         console.log("salvar ");
 
         $scope.conta.dataVencimento = $scope.dataVencimento.getTime();
@@ -142,9 +161,17 @@ angular.module('gestao-negocio-app').controller('IndexController', function ($sc
                     console.log("Gravado com sucesso");
                     $scope.listAllContas($scope.filialFiltro);
                     $scope.resetCadastro();
+                    $scope.growl = { "active" : true, "msg":"Registro Salvo com sucesso", "color" : "green"};
+                    $scope.autoCloseGrowl(5000);
                 },
                 function(error){
-                    console.error("Erro")
+                    console.error("Erro");
+                    if (error.status == 400){
+                        $scope.growl = { "active" : true, "msg":"Erro ao salvar registro. Verifique preenchimento dos formulário", "color" : "red"};
+                    }else{
+                        $scope.growl = { "active" : true, "msg":"Erro ao salvar registro.", "color" : "red"};
+                    }
+                    $scope.autoCloseGrowl(5000);
                 }
             );
         }else{
@@ -169,6 +196,7 @@ angular.module('gestao-negocio-app').controller('IndexController', function ($sc
 
 
     $scope.resetCadastro = function(){
+
         $scope.fornecedorSelecionado = {};
         $scope.filialSelecionada = {};
         $scope.conta = {
